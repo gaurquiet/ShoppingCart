@@ -1,0 +1,7 @@
+*.classpath
+*.jar
+wrapper
+*.project
+.settings
+META-INF
+*.class
