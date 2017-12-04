@@ -8,6 +8,8 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import org.apache.commons.lang3.tuple.Pair;
+
 import com.anu.shopping.app.discount.Discount;
 import com.anu.shopping.app.discount.DiscountTypes;
 import com.anu.shopping.app.model.InventoryItem;
@@ -62,7 +64,19 @@ public class LocalDbService implements DbService{
 		if(getInventoryById(itemId).isPresent()){
 			price = getInventoryById(itemId).get().getQuantityPrice().getPrice();
 		}
-		cart.addItemInCart(getItemById(itemId).get(), new QuantityPrice(quantity, price));
+		Optional<Pair<Item, QuantityPrice>> itemAlreadyThere = cart.getItems().stream()
+				.filter(Objects::nonNull)
+				.filter(pair -> Objects.nonNull(pair.getLeft()))
+				.filter(anotherPair -> anotherPair.getLeft().getItemId() == itemId)
+				.filter(oneMorePair -> Objects.nonNull(oneMorePair.getRight()))
+				.findFirst();
+		if(itemAlreadyThere.isPresent()){
+			cart.removeItemFromCart(itemAlreadyThere);
+			cart.addItemInCart(getItemById(itemId).get(), 
+					new QuantityPrice(quantity + itemAlreadyThere.get().getRight().getQuantity(), price));
+		} else {
+			cart.addItemInCart(getItemById(itemId).get(), new QuantityPrice(quantity, price));
+		}
 		allCarts.put(cart.getCartId(), cart);
 		return cart;
 	}

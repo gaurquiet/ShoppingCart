@@ -70,12 +70,21 @@ public class ShoppingCart {
 	}
 
 	public List removeItemFromCart(Item item){
-		Optional<Pair<Item, QuantityPrice>> pair = items.stream()
+		return removeItemFromCart(item.getItemId());
+	}
+	
+	public List removeItemFromCart(Optional<Pair<Item, QuantityPrice>> pair){
+		return removeItemFromCart(pair.get().getLeft().getItemId());
+	}
+	
+	public List removeItemFromCart(int itemId){
+		 Object o = items.stream()
 				.filter(Objects::nonNull)
-				.filter(p -> p.getLeft().getItemId() == item.getItemId())
-				.findFirst();
-		pair.ifPresent(p -> items.remove(p));
-		return items;
+				.filter(p -> p.getLeft().getItemId() == itemId)
+				.findFirst().get();
+		 items.remove(o);
+		 return items;
+
 	}
 
 }
