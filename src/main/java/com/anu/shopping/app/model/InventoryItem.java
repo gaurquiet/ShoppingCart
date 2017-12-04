@@ -1,23 +1,28 @@
 package com.anu.shopping.app.model;
 
 public class InventoryItem {
-	private int availableQuantity;
-	private double pricePerUnit;
-	public int getAvailableQuantity() {
-		return availableQuantity;
+	private Item item;
+	private QuantityPrice quantityPrice;
+	public Item getItem() {
+		return item;
 	}
-	public void setAvailableQuantity(int availableQuantity) {
-		this.availableQuantity = availableQuantity;
+	public void setItem(Item item) {
+		this.item = item;
 	}
-	public double getPricePerUnit() {
-		return pricePerUnit;
+	public QuantityPrice getQuantityPrice() {
+		return quantityPrice;
 	}
-	public void setPricePerUnit(double pricePerUnit) {
-		this.pricePerUnit = pricePerUnit;
+	public void setQuantityPrice(QuantityPrice quantityPrice) {
+		this.quantityPrice = quantityPrice;
 	}
-	public InventoryItem(int availableQuantity, double pricePerUnit) {
+	public InventoryItem(Item item, QuantityPrice quantityPrice) {
 		super();
-		this.availableQuantity = availableQuantity;
-		this.pricePerUnit = pricePerUnit;
+		this.item = item;
+		this.quantityPrice = quantityPrice;
 	}
+	public InventoryItem() {
+
+	}
+	
+	
 }

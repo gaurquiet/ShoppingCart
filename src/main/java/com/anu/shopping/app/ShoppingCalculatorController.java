@@ -3,13 +3,9 @@ package com.anu.shopping.app;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.anu.shopping.app.dbservice.DbService;
-import com.anu.shopping.app.model.Inventory;
 import com.anu.shopping.app.model.InventoryItem;
 import com.anu.shopping.app.model.Item;
-
 import java.util.List;
-
-import org.apache.commons.lang3.tuple.Pair;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -37,12 +33,12 @@ public class ShoppingCalculatorController {
     }
     
     @RequestMapping(path = "/inventory/{itemId}", method=RequestMethod.GET)
-    public Pair<Item, InventoryItem> getInventory(@RequestParam int itemId){
+    public InventoryItem getInventoryById(@RequestParam int itemId){
     	return dbService.getInventoryById(itemId).get();
     }
     
     @RequestMapping(path = "/inventory", method=RequestMethod.GET)
-    public List<Pair<Item, InventoryItem>> getInventory(){
+    public List<InventoryItem> getInventory(){
     	return dbService.getInventory();
     }
     

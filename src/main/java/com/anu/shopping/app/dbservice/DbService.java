@@ -14,6 +14,6 @@ public interface DbService {
 	public void addItemInInventoryByName(String itemName, int quantity, double d);
 	public Item getItemById(int id);
 	public List<Item> getAllItems();
-	public Optional<Pair<Item, InventoryItem>> getInventoryById(int id);
-	public List<Pair<Item, InventoryItem>> getInventory();
+	public Optional<InventoryItem> getInventoryById(int id);
+	public List<InventoryItem> getInventory();
 }
