@@ -10,6 +10,7 @@ import org.springframework.context.annotation.Bean;
 
 import com.anu.shopping.app.dbservice.DbService;
 import com.anu.shopping.app.dbservice.LocalDbService;
+import com.anu.shopping.app.service.ShoppingService;
 import com.anu.shopping.app.util.StaticDataLoader;
 
 import springfox.documentation.builders.PathSelectors;
@@ -48,6 +49,11 @@ public class Application {
 				.apis(RequestHandlerSelectors.basePackage("com.anu.shopping.app"))              
 				.paths(PathSelectors.any())                          
 				.build();                                           
+	}
+	
+	@Bean
+	public ShoppingService shoppingService(){
+		return new ShoppingService();
 	}
 	
 	@Bean

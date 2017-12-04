@@ -45,6 +45,10 @@ public class QuantityPrice {
 		this.quantity = quantity;
 		this.price = price;
 	}
+	@Override
+	public String toString() {
+		return "QuantityPrice [quantity=" + quantity + ", price=" + price + "]";
+	}
 	
 	
 }

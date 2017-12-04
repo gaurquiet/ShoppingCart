@@ -49,7 +49,7 @@ public class LocalDbService implements DbService{
 		if(getInventoryById(itemId).isPresent()){
 			price = getInventoryById(itemId).get().getQuantityPrice().getPrice();
 		}
-		cart.addItemInCart(getItemById(itemId), new QuantityPrice(itemId, price));
+		cart.addItemInCart(getItemById(itemId).get(), new QuantityPrice(quantity, price));
 		allCarts.put(cart.getCartId(), cart);
 		return cart;
 	}
@@ -79,8 +79,8 @@ public class LocalDbService implements DbService{
 		}
 	}
 
-	public Item getItemById(int id){
-		return items.get(id); 
+	public Optional<Item> getItemById(int id){
+		return Optional.of(items.get(id)); 
 	}
 
 	public List<Item> getAllItems(){
@@ -115,6 +115,11 @@ public class LocalDbService implements DbService{
 			inventory.add(new InventoryItem(itemByName.get(), new QuantityPrice(quantity, price)));
 		}
 		
+	}
+
+	@Override
+	public Optional<Item> getItemByName(String name) {
+		return items.values().stream().filter(item -> item.getItemName().trim().equalsIgnoreCase(name.trim())).findFirst();
 	}
 	
 	

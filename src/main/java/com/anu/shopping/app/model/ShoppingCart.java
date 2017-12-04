@@ -13,9 +13,42 @@ import com.anu.shopping.app.discount.Discount;
 public class ShoppingCart {
 
 	private int cartId;
-	List<Pair<Item, QuantityPrice>> items = new ArrayList<>();
-	List<Discount> allAppliedDiscounts;
-	
+	private List<Pair<Item, QuantityPrice>> items = new ArrayList<>();
+	private List<Discount> allAppliedDiscounts;
+	private double totalPrice;	private double totalDiscount;
+	private double finalPrice;
+
+
+	public List<Discount> getAllAppliedDiscounts() {
+		return allAppliedDiscounts;
+	}
+	public void setAllAppliedDiscounts(List<Discount> allAppliedDiscounts) {
+		this.allAppliedDiscounts = allAppliedDiscounts;
+	}
+	public double getTotalPrice() {
+		totalPrice = items.stream()
+				.filter(Objects::nonNull)
+				.map(pair -> pair.getRight())
+				.mapToDouble(qp -> qp.getPrice() * qp.getQuantity())
+				.sum();
+		return totalPrice;
+	}
+	public void setTotalPrice(double totalPrice) {
+		this.totalPrice = totalPrice;
+	}
+	public double getTotalDiscount() {
+		return totalDiscount;
+	}
+	public void setTotalDiscount(double totalDiscount) {
+		this.totalDiscount = totalDiscount;
+	}
+	public double getFinalPrice() {
+		return totalPrice - totalDiscount;
+	}
+	public void setFinalPrice(double finalPrice) {
+		this.finalPrice = finalPrice;
+	}
+
 	public int getCartId() {
 		return cartId;
 	}
