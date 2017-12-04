@@ -8,24 +8,30 @@ import java.util.Optional;
 import org.apache.commons.lang3.tuple.Pair;
 
 import com.anu.shopping.app.discount.Discount;
+import com.anu.shopping.app.discount.DiscountApplied;
 
 
 public class ShoppingCart {
 
 	private int cartId;
 	private List<Pair<Item, QuantityPrice>> items = new ArrayList<>();
-	private List<Discount> allAppliedDiscounts;
+	private List<DiscountApplied> allAppliedDiscounts = new ArrayList<>();
 	private double totalPrice;	
 	private double totalDiscount;
 	private double finalPrice;
 
 
-	public List<Discount> getAllAppliedDiscounts() {
+	public List<DiscountApplied> getAllAppliedDiscounts() {
 		return allAppliedDiscounts;
 	}
-	public void setAllAppliedDiscounts(List<Discount> allAppliedDiscounts) {
+	public void setAllAppliedDiscounts(List<DiscountApplied> allAppliedDiscounts) {
 		this.allAppliedDiscounts = allAppliedDiscounts;
 	}
+	
+	public void addDiscount(DiscountApplied discount){
+		allAppliedDiscounts.add(discount);
+	}
+	
 	public double getTotalPrice() {
 		totalPrice = items.stream()
 				.filter(Objects::nonNull)
@@ -38,6 +44,10 @@ public class ShoppingCart {
 		this.totalPrice = totalPrice;
 	}
 	public double getTotalDiscount() {
+		totalDiscount = allAppliedDiscounts.stream()
+				.filter(Objects::nonNull)
+				.mapToDouble(d -> d.getSavings())
+				.sum();
 		return totalDiscount;
 	}
 	public void setTotalDiscount(double totalDiscount) {

@@ -10,6 +10,7 @@ import org.springframework.context.annotation.Bean;
 
 import com.anu.shopping.app.dbservice.DbService;
 import com.anu.shopping.app.dbservice.LocalDbService;
+import com.anu.shopping.app.service.DiscountService;
 import com.anu.shopping.app.service.ShoppingService;
 import com.anu.shopping.app.util.StaticDataLoader;
 
@@ -61,5 +62,10 @@ public class Application {
 		DbService dbService = new LocalDbService();
 		StaticDataLoader.loadAllData(dbService);
 		return dbService;
+	}
+	
+	@Bean
+	public DiscountService discountService(){
+		return new DiscountService(StaticDataLoader.loadProductFreeOnAnotherDiscount(dbService()));
 	}
 }

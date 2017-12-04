@@ -72,5 +72,10 @@ public class ShoppingCalculatorController {
 		}
 		return shoppingService.addItemInCart(cartItem);
 	}
+	
+	@RequestMapping(path = "/cart/{cartId}/applyDiscount", method=RequestMethod.GET)
+	public ShoppingCart applyDiscountOnCart(@RequestParam int cartId) throws Exception{
+		return shoppingService.applyDiscountOnCart(cartId);
+	}
 
 }

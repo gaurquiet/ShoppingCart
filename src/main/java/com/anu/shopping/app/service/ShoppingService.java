@@ -12,6 +12,8 @@ import com.anu.shopping.app.model.ShoppingCart;
 public class ShoppingService {
 	@Autowired
 	private DbService dbService;
+	@Autowired
+	private DiscountService discountService;
 	
 	public ShoppingCart startNewCart(){
 		return dbService.addNewCart(new ShoppingCart());
@@ -38,7 +40,18 @@ public class ShoppingService {
 		return item.get();
 	}
 	
-	public ShoppingCart getCartById(int cartId){
-		return dbService.getCartById(cartId).get();
+	public ShoppingCart getCartById(int cartId) throws Exception{
+		if(cartId == 0){
+			throw new Exception("Cart id wrong.");
+		}
+		Optional<ShoppingCart> cart = dbService.getCartById(cartId);
+		if(!cart.isPresent()){
+			throw new Exception("cart not present.");
+		}
+		return cart.get();
+	}
+	
+	public ShoppingCart applyDiscountOnCart(int cartId) throws Exception{
+		return discountService.applyDiscounts(getCartById(cartId));
 	}
 }

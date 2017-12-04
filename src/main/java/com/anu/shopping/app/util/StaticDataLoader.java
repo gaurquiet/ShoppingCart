@@ -10,7 +10,6 @@ public class StaticDataLoader {
 	public static void loadAllData(DbService dbService){
 		loadItemData(dbService);
 		loadInventoryData(dbService);
-		loadDiscounts(dbService);
 	}
 	
 	private static void loadItemData(DbService dbService){
@@ -28,7 +27,7 @@ public class StaticDataLoader {
 		dbService.addItemInInventoryByName("Apple", 5, 1.00);
 	}
 	
-	private static void loadDiscounts(DbService dbService){
+	public static Discount loadProductFreeOnAnotherDiscount(DbService dbService){
 		Discount discount = ProductFreeOnAnotherDiscount.newBuilder()
 				.withPrimaryItem(dbService.getItemByName("Soup").get())
 				.withEligibleQuantity(2)
@@ -36,6 +35,7 @@ public class StaticDataLoader {
 				.withDiscountPercentageOnSecond(50.0f)
 				.build();
 		dbService.addDiscount(discount);
+		return discount;
 	}
 	
 
