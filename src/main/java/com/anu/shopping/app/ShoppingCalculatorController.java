@@ -6,6 +6,7 @@ import com.anu.shopping.app.dbservice.DbService;
 import com.anu.shopping.app.model.CartItem;
 import com.anu.shopping.app.model.InventoryItem;
 import com.anu.shopping.app.model.Item;
+import com.anu.shopping.app.model.Order;
 import com.anu.shopping.app.model.ShoppingCart;
 import com.anu.shopping.app.service.ShoppingService;
 
@@ -74,7 +75,7 @@ public class ShoppingCalculatorController {
 	}
 	
 	@RequestMapping(path = "/cart/{cartId}/applyDiscount", method=RequestMethod.GET)
-	public ShoppingCart applyDiscountOnCart(@RequestParam int cartId) throws Exception{
+	public Order applyDiscountOnCart(@RequestParam int cartId) throws Exception{
 		return shoppingService.applyDiscountOnCart(cartId);
 	}
 

@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.anu.shopping.app.dbservice.DbService;
 import com.anu.shopping.app.model.CartItem;
 import com.anu.shopping.app.model.Item;
+import com.anu.shopping.app.model.Order;
 import com.anu.shopping.app.model.ShoppingCart;
 
 public class ShoppingService {
@@ -51,7 +52,7 @@ public class ShoppingService {
 		return cart.get();
 	}
 	
-	public ShoppingCart applyDiscountOnCart(int cartId) throws Exception{
+	public Order applyDiscountOnCart(int cartId) throws Exception{
 		return discountService.applyDiscounts(getCartById(cartId));
 	}
 }

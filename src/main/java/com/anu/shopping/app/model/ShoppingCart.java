@@ -4,61 +4,24 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
-
 import org.apache.commons.lang3.tuple.Pair;
-
-import com.anu.shopping.app.discount.Discount;
-import com.anu.shopping.app.discount.DiscountApplied;
-
 
 public class ShoppingCart {
 
 	private int cartId;
 	private List<Pair<Item, QuantityPrice>> items = new ArrayList<>();
-	private List<DiscountApplied> allAppliedDiscounts = new ArrayList<>();
-	private double totalPrice;	
-	private double totalDiscount;
-	private double finalPrice;
+	private double shoppingValue;	
 
-
-	public List<DiscountApplied> getAllAppliedDiscounts() {
-		return allAppliedDiscounts;
-	}
-	public void setAllAppliedDiscounts(List<DiscountApplied> allAppliedDiscounts) {
-		this.allAppliedDiscounts = allAppliedDiscounts;
-	}
-	
-	public void addDiscount(DiscountApplied discount){
-		allAppliedDiscounts.add(discount);
-	}
-	
-	public double getTotalPrice() {
-		totalPrice = items.stream()
+	public double getShoppingValue() {
+		shoppingValue = items.stream()
 				.filter(Objects::nonNull)
 				.map(pair -> pair.getRight())
 				.mapToDouble(qp -> qp.getPrice() * qp.getQuantity())
 				.sum();
-		return totalPrice;
+		return shoppingValue;
 	}
-	public void setTotalPrice(double totalPrice) {
-		this.totalPrice = totalPrice;
-	}
-	public double getTotalDiscount() {
-		totalDiscount = allAppliedDiscounts.stream()
-				.filter(Objects::nonNull)
-				.mapToDouble(d -> d.getSavings())
-				.sum();
-		return totalDiscount;
-	}
-	public void setTotalDiscount(double totalDiscount) {
-		this.totalDiscount = totalDiscount;
-	}
-	public double getFinalPrice() {
-		finalPrice = totalPrice - totalDiscount;
-		return finalPrice;
-	}
-	public void setFinalPrice(double finalPrice) {
-		this.finalPrice = finalPrice;
+	public void setShoppingValue(double totalPrice) {
+		this.shoppingValue = totalPrice;
 	}
 
 	public int getCartId() {

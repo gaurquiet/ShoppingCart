@@ -12,7 +12,16 @@ import com.anu.shopping.app.model.ShoppingCart;
 public class SingleProductPercentageDiscount implements Discount {
 	
 	private Item primaryItem;
-	private int percentageDiscount;
+	private int discountPercentage;
+	
+	public SingleProductPercentageDiscount(Builder builder) {
+		this.primaryItem = builder.primaryItem;
+		this.discountPercentage = builder.discountPercentage;
+	}
+	
+	public static Builder newBuilder(){
+		return new Builder();
+	}
 
 	@Override
 	public DiscountTypes getType() {
@@ -27,10 +36,31 @@ public class SingleProductPercentageDiscount implements Discount {
 		.filter(Objects::nonNull)
 		.findFirst();
 		if(primary.isPresent()){
-			discount = primary.get().getRight().getPrice() * primary.get().getRight().getQuantity() * percentageDiscount/100.0;
+			discount = primary.get().getRight().getPrice() * primary.get().getRight().getQuantity() * discountPercentage/100.0;
 			return new DiscountApplied(getType(), discount);
 		}
 		return new DiscountApplied(DiscountTypes.NONE, 0.0);
+	}
+	
+	public static class Builder{
+		private Item primaryItem;
+		private int discountPercentage;
+		
+		private Builder(){}
+		public Builder withPrimaryItem(Item item){
+			this.primaryItem = item;
+			return this;
+		}
+	
+		
+		public Builder withPercentageDiscount(int percentage){
+			this.discountPercentage = percentage;
+			return this;
+		}
+		
+		public SingleProductPercentageDiscount build(){
+			return new SingleProductPercentageDiscount(this);
+		}
 	}
 
 

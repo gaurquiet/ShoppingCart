@@ -66,6 +66,7 @@ public class Application {
 	
 	@Bean
 	public DiscountService discountService(){
-		return new DiscountService(StaticDataLoader.loadProductFreeOnAnotherDiscount(dbService()));
+		return new DiscountService(StaticDataLoader.loadProductFreeOnAnotherDiscount(dbService()), 
+				StaticDataLoader.loadSingleProductPercentageDiscount(dbService()));
 	}
 }

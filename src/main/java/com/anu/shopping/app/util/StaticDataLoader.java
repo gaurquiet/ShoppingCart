@@ -3,6 +3,7 @@ package com.anu.shopping.app.util;
 import com.anu.shopping.app.dbservice.DbService;
 import com.anu.shopping.app.discount.Discount;
 import com.anu.shopping.app.discount.ProductFreeOnAnotherDiscount;
+import com.anu.shopping.app.discount.SingleProductPercentageDiscount;
 import com.anu.shopping.app.model.Item;
 
 public class StaticDataLoader {
@@ -20,7 +21,6 @@ public class StaticDataLoader {
 	}
 	
 	private static void loadInventoryData(DbService dbService){
-		loadItemData(dbService);
 		dbService.addItemInInventoryByName("Soup", 5, 0.65);
 		dbService.addItemInInventoryByName("Bread", 5, 0.80);
 		dbService.addItemInInventoryByName("Milk", 5, 1.30);
@@ -33,6 +33,15 @@ public class StaticDataLoader {
 				.withEligibleQuantity(2)
 				.withFreeItem(dbService.getItemByName("Bread").get())
 				.withDiscountPercentageOnSecond(50.0f)
+				.build();
+		dbService.addDiscount(discount);
+		return discount;
+	}
+	
+	public static Discount loadSingleProductPercentageDiscount(DbService dbService){
+		Discount discount = SingleProductPercentageDiscount.newBuilder()
+				.withPrimaryItem(dbService.getItemByName("Apple").get())
+				.withPercentageDiscount(10)
 				.build();
 		dbService.addDiscount(discount);
 		return discount;

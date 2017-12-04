@@ -1,12 +1,12 @@
 package com.anu.shopping.app.service;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import org.springframework.util.CollectionUtils;
 
 import com.anu.shopping.app.discount.Discount;
+import com.anu.shopping.app.model.Order;
 import com.anu.shopping.app.model.ShoppingCart;
 
 public class DiscountService {
@@ -20,8 +20,10 @@ public class DiscountService {
 		this.discounts.addAll(discounts);
 	}
 	
-	public ShoppingCart applyDiscounts(ShoppingCart cart){
-		discounts.stream().forEach(d -> cart.addDiscount(d.apply(cart)));
-		return cart;
+	public Order applyDiscounts(ShoppingCart cart){
+		Order order = new Order();
+		order.setCart(cart);
+		discounts.stream().forEach(d -> order.addDiscount(d.apply(cart)));
+		return order;
 	}
 }
