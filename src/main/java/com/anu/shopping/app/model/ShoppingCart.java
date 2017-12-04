@@ -15,7 +15,8 @@ public class ShoppingCart {
 	private int cartId;
 	private List<Pair<Item, QuantityPrice>> items = new ArrayList<>();
 	private List<Discount> allAppliedDiscounts;
-	private double totalPrice;	private double totalDiscount;
+	private double totalPrice;	
+	private double totalDiscount;
 	private double finalPrice;
 
 
@@ -43,7 +44,8 @@ public class ShoppingCart {
 		this.totalDiscount = totalDiscount;
 	}
 	public double getFinalPrice() {
-		return totalPrice - totalDiscount;
+		finalPrice = totalPrice - totalDiscount;
+		return finalPrice;
 	}
 	public void setFinalPrice(double finalPrice) {
 		this.finalPrice = finalPrice;

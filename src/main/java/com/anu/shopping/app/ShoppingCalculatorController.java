@@ -55,6 +55,14 @@ public class ShoppingCalculatorController {
 	public ShoppingCart startShopping(){
 		return shoppingService.startNewCart();
 	}
+	
+	@RequestMapping(path = "/cart/{cartId}", method=RequestMethod.GET)
+	public ShoppingCart getCartById(@RequestParam int cartId) throws Exception{
+		if(cartId == 0){
+			throw new Exception("Please provide a valid cart id.");
+		}
+		return shoppingService.getCartById(cartId);
+	}
 
 	@RequestMapping(path = "/cart/{cartId}/item", method=RequestMethod.POST, consumes=MediaType.APPLICATION_JSON)
 	public ShoppingCart addItemInCart(@RequestBody CartItem cartItem, @RequestParam int cartId) throws Exception{

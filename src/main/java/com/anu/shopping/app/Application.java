@@ -59,7 +59,7 @@ public class Application {
 	@Bean
 	public DbService dbService(){
 		DbService dbService = new LocalDbService();
-		StaticDataLoader.loadInventoryData(dbService);
+		StaticDataLoader.loadAllData(dbService);
 		return dbService;
 	}
 }

@@ -5,6 +5,8 @@ import java.util.Optional;
 
 import org.apache.commons.lang3.tuple.Pair;
 
+import com.anu.shopping.app.discount.Discount;
+import com.anu.shopping.app.discount.DiscountTypes;
 import com.anu.shopping.app.model.InventoryItem;
 import com.anu.shopping.app.model.Item;
 import com.anu.shopping.app.model.ShoppingCart;
@@ -20,4 +22,9 @@ public interface DbService {
 	public List<InventoryItem> getInventory();
 	public ShoppingCart addNewCart(ShoppingCart cart);
 	public ShoppingCart addItemInCart(int cartId, int itemId, int quantity);
+	public Optional<ShoppingCart> getCartById(int cartId);
+	public void addDiscount(Discount discount);
+	public List<Discount> getDiscountByType(DiscountTypes type);
+	public List<Discount> getAllDiscounts();
 }
+

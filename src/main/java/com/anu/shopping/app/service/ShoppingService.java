@@ -37,4 +37,8 @@ public class ShoppingService {
 		}
 		return item.get();
 	}
+	
+	public ShoppingCart getCartById(int cartId){
+		return dbService.getCartById(cartId).get();
+	}
 }

@@ -4,12 +4,12 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import org.apache.commons.lang3.tuple.Pair;
-
 import com.anu.shopping.app.discount.Discount;
+import com.anu.shopping.app.discount.DiscountTypes;
 import com.anu.shopping.app.model.InventoryItem;
 import com.anu.shopping.app.model.Item;
 import com.anu.shopping.app.model.QuantityPrice;
@@ -23,15 +23,27 @@ public class LocalDbService implements DbService{
 	private List<Discount> discounts = new ArrayList<>();
 	private Map<Integer, ShoppingCart> allCarts = new HashMap<>();
 	
+	@Override
 	public void addDiscount(Discount discount){
 		discounts.add(discount);
 	}
 	
-	public ShoppingCart getCartById(int id){
-		return allCarts.get(id);
-		
+	@Override
+	public List<Discount> getDiscountByType(DiscountTypes type){
+		return discounts.stream()
+		.filter(d -> d.getType().equals(type))
+		.filter(Objects::nonNull)
+		.collect(Collectors.toList());
 	}
 	
+	@Override
+	public List<Discount> getAllDiscounts(){
+		return discounts.stream()
+		.filter(Objects::nonNull)
+		.collect(Collectors.toList());
+	}
+	
+	@Override
 	public ShoppingCart addNewCart(ShoppingCart cart){
 		cartCounter++;
 		cart.setCartId(cartCounter);
@@ -39,6 +51,7 @@ public class LocalDbService implements DbService{
 		return cart;
 	}
 	
+	@Override
 	public ShoppingCart addItemInCart(int cartId, int itemId, int quantity){
 		ShoppingCart cart = allCarts.get(cartId);
 		if(cart == null){
@@ -53,11 +66,8 @@ public class LocalDbService implements DbService{
 		allCarts.put(cart.getCartId(), cart);
 		return cart;
 	}
-	
-	public List<Discount> getAllDiscounts(){
-		return discounts;
-	}
 
+	@Override
 	public int addItemInSystem(Item item){
 		itemCounter++;
 		item.setItemId(itemCounter);
@@ -65,6 +75,7 @@ public class LocalDbService implements DbService{
 		return itemCounter;
 	}
 
+	@Override
 	public void addItemInInventoryByItemId(int itemId, int quantity, double price){
 		Optional<InventoryItem> item = inventory.stream()
 		.filter(p -> p.getItem().getItemId() == itemId)
@@ -79,10 +90,12 @@ public class LocalDbService implements DbService{
 		}
 	}
 
+	@Override
 	public Optional<Item> getItemById(int id){
 		return Optional.of(items.get(id)); 
 	}
 
+	@Override
 	public List<Item> getAllItems(){
 		return items.values().stream().collect(Collectors.toList());
 	}
@@ -122,5 +135,8 @@ public class LocalDbService implements DbService{
 		return items.values().stream().filter(item -> item.getItemName().trim().equalsIgnoreCase(name.trim())).findFirst();
 	}
 	
-	
+	@Override
+	public Optional<ShoppingCart> getCartById(int cartId){
+		return Optional.of(allCarts.get(cartId));
+	}
 }
