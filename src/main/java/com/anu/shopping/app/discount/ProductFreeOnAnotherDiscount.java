@@ -81,7 +81,10 @@ public class ProductFreeOnAnotherDiscount implements Discount {
 					.filter(pair -> pair.getLeft().getItemId() == freeItem.getItemId())
 					.findFirst();
 			if(free.isPresent()){
-				discount = free.get().getRight().getPrice() * free.get().getRight().getQuantity() * discountPercentageOnSecond /100;
+				int totalEliligibleCombinationOfPrimary = primary.get().getRight().getQuantity() / eligibleQuantity;
+				int eligibleFreeItems = (free.get().getRight().getQuantity() <= totalEliligibleCombinationOfPrimary)?
+						free.get().getRight().getQuantity():totalEliligibleCombinationOfPrimary;
+				discount = free.get().getRight().getPrice() * eligibleFreeItems * discountPercentageOnSecond /100;
 				return new DiscountApplied(getType(), discount);
 			}
 		}
