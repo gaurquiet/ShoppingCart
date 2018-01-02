@@ -6,6 +6,7 @@ import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.docu
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import org.junit.Before;
@@ -52,13 +53,13 @@ public class MockedControllerTest {
 		.andExpect(content().string(containsString("Greetings from Spring Boot!")));
     }
 	
-	//@Test
+	@Test
     public void startShoppingShouldReturnAShoppingCart() throws Exception {
 		this.mockMvc
 		.perform(get("/cart"))
 		.andDo(print())
 		.andExpect(status().isOk())
-		.andExpect(content().string(containsString("Greetings from Spring Boot!")));
+		.andExpect(jsonPath("$.cartId").isNumber());
     }
 
 }
