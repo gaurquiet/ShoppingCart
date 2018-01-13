@@ -2,13 +2,16 @@ package com.anu.shopping.app.service;
 
 import java.util.Optional;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.context.config.ResourceNotFoundException;
 
 import com.anu.shopping.app.dbservice.DbService;
 import com.anu.shopping.app.model.CartItem;
 import com.anu.shopping.app.model.Item;
 import com.anu.shopping.app.model.Order;
 import com.anu.shopping.app.model.ShoppingCart;
+import com.google.common.base.Supplier;
 
 public class ShoppingService {
 	@Autowired
@@ -36,7 +39,7 @@ public class ShoppingService {
 			item = dbService.getItemById(itemId);
 		}
 		if(!item.isPresent()){
-			throw new Exception("Item not present.");
+			throw new ResourceNotFoundException(resourceNotFoundExceptionMessage("Item", StringUtils.isNotBlank(name)?name:String.valueOf(itemId)), null);
 		}
 		return item.get();
 	}
@@ -47,12 +50,24 @@ public class ShoppingService {
 		}
 		Optional<ShoppingCart> cart = dbService.getCartById(cartId);
 		if(!cart.isPresent()){
-			throw new Exception("cart not present.");
+			throw new ResourceNotFoundException(resourceNotFoundExceptionMessage("Cart", cartId), null);
 		}
 		return cart.get();
 	}
 	
 	public Order applyDiscountOnCart(int cartId) throws Exception{
 		return discountService.applyDiscounts(getCartById(cartId));
+	}
+	
+	private String resourceNotFoundExceptionMessage(String resourceName, int id){
+		return resourceName + " with id " + id + " doesn't exist.";
+	}
+	
+	private String resourceNotFoundExceptionMessage(String resourceName, String id){
+		return resourceName + " with id " + id + " doesn't exist.";
+	}
+	
+	private String resourceNotFoundExceptionMessage(String resourceName, Supplier<String> supplier){
+		return resourceName + " with id " + supplier.get() + " doesn't exist.";
 	}
 }

@@ -12,8 +12,11 @@ import com.anu.shopping.app.service.ShoppingService;
 
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+
+import javax.ws.rs.PathParam;
 import javax.ws.rs.core.MediaType;
 
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -38,12 +41,12 @@ public class ShoppingCalculatorController {
 	}
 
 	@RequestMapping(path = "/item/{itemId}", method=RequestMethod.GET)
-	public Item getItem(@RequestParam int itemId) throws Exception{
+	public Item getItem(@PathVariable Integer itemId) throws Exception{
 		return shoppingService.getItemByIdOrName(itemId, null);
 	}
 
 	@RequestMapping(path = "/inventory/{itemId}", method=RequestMethod.GET)
-	public InventoryItem getInventoryById(@RequestParam int itemId){
+	public InventoryItem getInventoryById(@PathVariable Integer itemId){
 		return dbService.getInventoryById(itemId).get();
 	}
 
@@ -58,7 +61,7 @@ public class ShoppingCalculatorController {
 	}
 	
 	@RequestMapping(path = "/cart/{cartId}", method=RequestMethod.GET)
-	public ShoppingCart getCartById(@RequestParam int cartId) throws Exception{
+	public ShoppingCart getCartById(@PathVariable Integer cartId) throws Exception{
 		if(cartId == 0){
 			throw new Exception("Please provide a valid cart id.");
 		}
@@ -66,7 +69,7 @@ public class ShoppingCalculatorController {
 	}
 
 	@RequestMapping(path = "/cart/{cartId}/item", method=RequestMethod.POST, consumes=MediaType.APPLICATION_JSON)
-	public ShoppingCart addItemInCart(@RequestBody CartItem cartItem, @RequestParam int cartId) throws Exception{
+	public ShoppingCart addItemInCart(@RequestBody CartItem cartItem, @PathVariable Integer cartId) throws Exception{
 		
 		if(cartItem == null || cartItem.getCartId() != cartId){
 			throw new Exception("Invalid request");
@@ -75,7 +78,7 @@ public class ShoppingCalculatorController {
 	}
 	
 	@RequestMapping(path = "/cart/{cartId}/applyDiscount", method=RequestMethod.GET)
-	public Order applyDiscountOnCart(@RequestParam int cartId) throws Exception{
+	public Order applyDiscountOnCart(@PathVariable Integer cartId) throws Exception{
 		return shoppingService.applyDiscountOnCart(cartId);
 	}
 

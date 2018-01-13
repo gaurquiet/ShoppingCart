@@ -104,12 +104,12 @@ operation::greeting-should-return-default-message/1[snippets='http-request,http-
 
 
 [[resources-shopping-cart]]
-== Create a shopping cart
+== Shopping cart
 
 A shopping cart is required before starting shopping.
 
 [[resources-shopping-start]]
-=== Start shop
+=== Start shopping
 
 A `GET` request will create a cart on starting of shopping.
 
@@ -117,110 +117,90 @@ operation::start-shopping-should-return-a-shopping-cart/1[snippets='http-request
 
 
 
-[[resources-notes-create]]
-=== Creating a note
+[[resources-cart-get]]
+=== Get a cart by id
 
-A `POST` request is used to create a note.
+A `GET` request is used to get cart by id.
 
-operation::notes-create-example[snippets='request-fields,curl-request,http-response']
+operation::get-cart-by-id/1[snippets='http-request,http-response,response-body']
 
+[[resources-cart-get-unavailable]]
+=== Handle cart not found
 
+A `GET` request is used to get cart by id.
 
-[[resources-tags]]
-== Tags
-
-The Tags resource is used to create and list tags.
-
-
-
-[[resources-tags-list]]
-=== Listing tags
-
-A `GET` request will list all of the service's tags.
-
-operation::tags-list-example[snippets='response-fields,curl-request,http-response,links']
+operation::handle-cart-not-found/1[snippets='http-request,http-response,response-body']
 
 
+[[resources-item]]
+== Item
 
-[[resources-tags-create]]
-=== Creating a tag
-
-A `POST` request is used to create a note
-
-operation::tags-create-example[snippets='request-fields,curl-request,http-response']
+Items can be added and removed into/from cart.
 
 
+[[resources-add-apple-in-cart]]
+=== Add Apple into cart
 
-[[resources-note]]
-== Note
+operation::add-apple-in-cart/1[snippets='http-request,http-response,response-body']
+
+[[resources-add-soup-in-cart]]
+=== Add Soup into cart
+
+operation::add-soup-in-cart/1[snippets='http-request,http-response,response-body']
+
+[[resources-add-milk-in-cart]]
+=== Add Milk into cart
+
+operation::add-milk-in-cart/1[snippets='http-request,http-response,response-body']
+
+[[resources-add-bread-in-cart]]
+=== Add Bread into cart
+
+operation::add-bread-in-cart/1[snippets='http-request,http-response,response-body']
+
+
+[[resources-item-by-id]]
+=== Get Item details by Id
+
+A `GET` request will retrieve item corresponding to provided id.
+
+operation::get-item-by-id/1[snippets='http-request,http-response,response-body']
+
+[[resources-item-not-found]]
+=== Handle Item not found
+
+A `GET` request will retrieve item corresponding to provided id.
+
+operation::handle-item-not-found/1[snippets='http-request,http-response,response-body']
+
+
+[[resources-get-all-items]]
+=== Get All Items
+
+A `GET` request will retrieve all the items present in Inventory.
+
+operation::get-all-items/1[snippets='http-request,http-response,response-body']
+
+
+
+[[resources-discount]]
+== Discount
 
 The Note resource is used to retrieve, update, and delete individual notes
 
+[[resources-apply-discount-filled-cart]]
+=== Apply Discount On Shopping Cart - Check out
 
+A `GET` request will apply discount on shopping cart and will generate final bill details.
 
-[[resources-note-links]]
-=== Links
+operation::calculate-discount-on-filled-discount/1[snippets='http-request,http-response,response-body']
 
-include::{snippets}/note-get-example/links.adoc[]
+[[resources-apply-discount-empty-cart]]
+=== Apply Discount On empty Shopping Cart
 
+A `GET` request will apply discount on empty shopping cart.
 
-
-[[resources-note-retrieve]]
-=== Retrieve a note
-
-A `GET` request will retrieve the details of a note
-
-operation::note-get-example[snippets='response-fields,curl-request,http-response']
-
-
-
-[[resources-note-update]]
-=== Update a note
-
-A `PATCH` request is used to update a note
-
-==== Request structure
-
-include::{snippets}/note-update-example/request-fields.adoc[]
-
-To leave an attribute of a note unchanged, any of the above may be omitted from the request.
-
-==== Example request
-
-include::{snippets}/note-update-example/curl-request.adoc[]
-
-==== Example response
-
-include::{snippets}/note-update-example/http-response.adoc[]
+operation::calculate-discount-on-empty-cart/1[snippets='http-request,http-response,response-body']
 
 
 
-[[resources-tag]]
-== Tag
-
-The Tag resource is used to retrieve, update, and delete individual tags
-
-
-
-[[resources-tag-links]]
-=== Links
-
-include::{snippets}/tag-get-example/links.adoc[]
-
-
-
-[[resources-tag-retrieve]]
-=== Retrieve a tag
-
-A `GET` request will retrieve the details of a tag
-
-operation::tag-get-example[snippets='response-fields,curl-request,http-response']
-
-
-
-[[resources-tag-update]]
-=== Update a tag
-
-A `PATCH` request is used to update a tag
-
-operation::tag-update-example[snippets='request-fields,curl-request,http-response']

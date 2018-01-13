@@ -12,6 +12,7 @@ import org.apache.commons.lang3.tuple.Pair;
 
 import com.anu.shopping.app.discount.Discount;
 import com.anu.shopping.app.discount.DiscountTypes;
+import com.anu.shopping.app.model.CartItem;
 import com.anu.shopping.app.model.InventoryItem;
 import com.anu.shopping.app.model.Item;
 import com.anu.shopping.app.model.QuantityPrice;
@@ -80,6 +81,19 @@ public class LocalDbService implements DbService{
 		allCarts.put(cart.getCartId(), cart);
 		return cart;
 	}
+	
+	public ShoppingCart addItemInCart(int cartId, CartItem item){
+		int itemId;
+		if(item.getItemId() > 0){
+			itemId = item.getItemId();
+		} else {
+			itemId = inventory.stream()
+					.filter(i -> i.getItem().getItemName().equals(item.getItemName()))
+					.map(i -> i.getItem().getItemId())
+					.findFirst().get().intValue();
+		}
+		return addItemInCart(cartId, item.getItemId(), item.getQuantity());
+	}
 
 	@Override
 	public int addItemInSystem(Item item){
@@ -106,7 +120,21 @@ public class LocalDbService implements DbService{
 
 	@Override
 	public Optional<Item> getItemById(int id){
-		return Optional.of(items.get(id)); 
+		return Optional.ofNullable(items.get(id)); 
+	}
+	
+	public void removeItemFromCart(int itemId, int cartId){
+		allCarts.get(cartId).removeItemFromCart(itemId);
+	}
+	
+	public void removeCartById(int cartId){
+		allCarts.remove(cartId);
+	}
+	
+	public void removeAllCarts(){
+		allCarts = new HashMap<>();
+		cartCounter = 0;
+		itemCounter = 0;
 	}
 
 	@Override
@@ -151,6 +179,6 @@ public class LocalDbService implements DbService{
 	
 	@Override
 	public Optional<ShoppingCart> getCartById(int cartId){
-		return Optional.of(allCarts.get(cartId));
+		return Optional.ofNullable(allCarts.get(cartId));
 	}
 }

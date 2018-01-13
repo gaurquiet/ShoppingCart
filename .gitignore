@@ -5,3 +5,7 @@ wrapper
 .settings
 META-INF
 *.class
+1
+default-compile
+default-testCompile
+surefire-reports
